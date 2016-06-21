@@ -1,0 +1,38 @@
+FROM
+H(ighness) R(oyal) <{from}>
+
+TO
+{邮箱}
+
+SUBJECT
+{月份}月工资单
+
+CONTENT
+亲爱的{姓名}你好,
+
+上个月你工资收入{总收入}元, 扣税{税}元, 剩下{净收入}元.
+
+不要抱怨, 谷歌的实习生扣税更多.
+
+总之, 公司感谢你的辛苦付出, 但是, 我是你爹.
+
+祝好,
+
+神圣的人资殿下
+
+Eglish Version:
+
+Dear employee,
+
+OMG, last month you earned RMB {总收入} yuan, congrats!
+
+But tax is {税} Yuan, therefore you only received {净收入} Yuan [sad face]
+
+Be grateful, since tax for interns is much higher in Google.
+
+All in all, thank you for your devotion and hardworking, and I am your father.
+
+Best Regards,
+
+H(ighness) R(oyal)
+
