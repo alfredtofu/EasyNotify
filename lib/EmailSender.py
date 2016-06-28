@@ -6,6 +6,7 @@ import codecs
 import json
 import re
 import StringIO
+from utils import *
 from os import path
 from email import encoders
 from email.header import Header
@@ -63,10 +64,10 @@ class WageTask:
         subject_template = cook_template[2]
         content_template = cook_template[3]
 
-        assert (from_template.split("\n")[0].lower() == 'from')
-        assert (to_template.split('\n')[0].lower() == 'to')
-        assert (subject_template.split('\n')[0].lower() == 'subject')
-        assert (content_template.split('\n', 1)[0].lower() == 'content')
+        assert_msg (from_template.split("\n")[0].lower() == 'from')
+        assert_msg (to_template.split('\n')[0].lower() == 'to')
+        assert_msg (subject_template.split('\n')[0].lower() == 'subject')
+        assert_msg (content_template.split('\n', 1)[0].lower() == 'content')
 
         # collect all '{col-name}' in template, and check if exists
         # corresponding col in wage file
@@ -99,7 +100,6 @@ class WageTask:
         prog = re.compile('[^@]+@([^@\.]+\.)+')
         ret = prog.match(task.fromaddr)
         if ret is None:
-            logging.error(u'错误,发件人格式不正确')
             raise Exception(u'错误,发件人格式不正确, {0}'.format(task.fromaddr))
 
         # 检查收件人格式是否正确
@@ -134,9 +134,39 @@ class WageNotifierSetting:
 
     @staticmethod
     def createFromFile(filename):
+        assert_msg(path.exists(filename), u"错误, 邮箱配置文件'{0}'不存在".format(filename) )
+        jsonobj = {
+            "username" : None,
+            "password" : None,
+            "serveraddr": None,
+            "sender"    : None,
+            "serverport": None,
+            "debug"     : None
+        }
+
+        sect = re.compile("\[([^\]]+)\]")
         with codecs.open(filename, 'r', 'utf-8') as fid:
-            jsonobj = json.load(fid, 'utf-8')
-            return WageNotifierSetting.createFromJSON(jsonobj)
+            while True:
+                line = fid.readline()
+                if not line:
+                    break # eof
+
+                if line.strip('\r\n') == "":
+                    continue # empty line
+                line = line.strip('\r\n')
+                key = sect.findall(line)
+                assert_msg(len(key)==1, u"邮件配置文件没有找到形如'[]'的字段, '{0}'".format(line))
+                key = key[0]
+                if key in jsonobj:
+                    jsonobj[key]  = fid.readline().strip('\r\n')
+
+        for key in jsonobj:
+            val = jsonobj[key]
+            assert_msg(val is not None and val != "", u'邮件配置文件错误, [{0}]字段不正确'.format(key) )
+        jsonobj["serverport"] = int(jsonobj["serverport"])
+        jsonobj["debug"] = jsonobj["debug"].lower() == 'true'
+
+        return WageNotifierSetting.createFromJSON(jsonobj)
 
 class EmailNotifier:
 

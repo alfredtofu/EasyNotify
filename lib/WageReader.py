@@ -13,7 +13,6 @@ class WageReader:
     def __init__(self, filename):
         if not path.exists(filename) :
             raise Exception(u"错误, 工资文件不存在!\n")
-
         self.wage_file = filename
 
     def read_csv(self):

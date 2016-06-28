@@ -3,19 +3,41 @@
 
 这个小工具可以帮助HR批量地按照给定模板发送工资单给多个员工.
 
+<!--### 环境配置 ###-->
+
+<!--####Mac OSX####-->
+
+<!--1. 安装pip-->
+<!--`brew install pip`-->
+
+
+<!--####Windows####-->
+
+<!--1. 安装python-->
+
+
 ### 邮箱设置 ###
 
-修改email.conf
+修改email.txt
 
 ````
-{
-"sender" : "jiaxiaoke@hobot.cc",   //发送的邮箱
-"username" : "jiaxiaoke",          //登陆邮箱系统的用户名(不一定是邮箱号)
-"password" : "1234qwer",           //登陆邮箱系统的密码
-"serveraddr" : "smtp.qq.com",      //邮箱系统的smtp服务器地址
-"serverport" : "587",              //邮箱系统smtp服务器的端口号
-"debug" : false                    //是否打印调试信息
-}
+[sender]               //发送的邮箱
+xiaoke.jia@hobot.cc
+
+[username]             //登陆邮箱系统的用户名(不一定是邮箱号)
+xiaoke.jia
+
+[password]             //登陆邮箱系统的密码
+123456
+
+[serveraddr]           //邮箱系统的smtp服务器地址
+mail.hobot.cc
+
+[serverport]           //邮箱系统smtp服务器的端口号
+587
+
+[debug]                //是否打印调试信息
+false
 ````
 
 ### 工资单 ###
@@ -60,11 +82,11 @@ H(ighness) R(oyal)
 
 示例:
 
-1. 给employee.xls的每个人,按照模板employee.txt发送邮件:
-`python EasyNotify.py  employee.xml employee.txt`
+1. 给employee.xls的每个人,按照模板employee.txt发送邮件: 
+`python EasyNotify.py  employee.csv employee.txt`
 
 2. 给intrn.xls的每个人,按照模板intern.txt发送, 同时抄送自己
-`python EasyNotify.py intrn.xls intern.txt -ccself`
+`python EasyNotify.py intrn.csv intern.txt -ccself`
 
 
 

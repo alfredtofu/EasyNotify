@@ -7,7 +7,7 @@ import csv
 import json
 import io
 import random
-
+from lib.utils import *
 from lib.EmailSender import *
 from lib.WageReader import *
 
@@ -26,8 +26,8 @@ def main(args):
               u"示例:\n" + \
               u"1. 给test.xls的每个人,按照模板temp1.txt发送邮件:\n" + \
               u"python {0} test.xml temp1.txt\n\n".format(name) + \
-              u"2. 给intrn.xls的每个人,按照模板intern.txt发送, 同时抄送自己\n" + \
-              u"python {0} intrn.xls intern.txt -ccself\n\n".format(name)
+              u"2. 给intrn.cvs的每个人,按照模板intern.txt发送, 同时抄送自己\n" + \
+              u"python {0} intrn.cvs intern.txt -ccself\n\n".format(name)
         return
 
     print "Tool started...\n"
@@ -36,7 +36,7 @@ def main(args):
     template_file = args[2]
     ccself = u"-ccself" in args
 
-    config = WageNotifierSetting.createFromFile('email.config')
+    config = WageNotifierSetting.createFromFile('email.txt')
     reader = WageReader(table_file)
     sender = EmailNotifier(config)
     rows = reader.read_rows()

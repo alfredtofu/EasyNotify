@@ -1,0 +1,17 @@
+[sender]
+xiaoke.jia@hobot.cc
+
+[username]
+xiaoke.jia
+
+[password]
+123456
+
+[serveraddr]
+mail.hobot.cc
+
+[serverport]
+587
+
+[debug]
+false
