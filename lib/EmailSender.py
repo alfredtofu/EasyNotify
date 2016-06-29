@@ -184,12 +184,12 @@ class EmailNotifier:
             self.server.ehlo()
             self.server.starttls()
             self.server.login(config.username, config.password)
-            print u"验证通过\n"
+            print u"邮箱账户验证通过\n"
         except smtplib.SMTPAuthenticationError as e:
-            print(u"验证失败: {0}\n".format(e.smtp_error))
+            print(u"邮箱账户验证失败: {0}\n".format(e.smtp_error))
             self.server = None
         except Exception as e:
-            print(u"验证失败, 原因未知. 错误信息为: {0}".format(e))
+            print(u"邮箱账户验证失败, 原因未知. 错误信息为: {0}".format(e))
             self.server = None
 
     def send_batch(self, tasks):

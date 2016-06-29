@@ -1,4 +1,44 @@
+## 长者的凝视 ##
 
+```````
+                            //+osyssosooo+//
+                      ::/ohmNNNNNNNNNNNNNNNNmdyo/
+                     /ydNNNNmmNmmmdddddddhhddddNmdy+
+                   /hNNNNmmddmddyyyssyyysssyyyhhshddho
+                  sNNNNNmmddhysso+/:::/:::-://+sooyyyhd+:
+                 hMNNmdhhyyo+//::---...........--/+sysymh:
+                hMMNmhyoo++/    ---               -:oyshmh
+               hMMMNmyo+oo+/:::---.......```````...-:+shmNo.
+              +MMMMNmyoosso+::----....`.`````````...-/ohmNm
+              dMMMMNmyssyso+::---..........```````...:+hNNm
+              mMMMMNmyyyyso+:::--..`.......``````....-+yNMh
+              yMMMMNmdhyyyyso++//:-....`--.....`....-:+dNMo
+               mMMMMNdhhmdhso+///:/++:.`/s+++/:::/++:-+mMN.
+              `+mNNNmNdNdyyyyyyys+/-+myddo+oso/-....shdNm/
+               +hhddhyymsyyss+++-+sshNhN+:osoo///-..-N/+y.
+               :hyyhhyydo+//::::--/hN+.-h-:/:-......-h../
+               .ysyyyyyys+//-....:hms-.`:y:-:--.....//-..
+                +yhyyyyyyysoooo+shyys-.`.:s/+//::://:...
+                .ysyyyyhys/:--./syhmds+:os::///:--..-.
+                `+syyyyhhyyo///+osssso/....``.:::----.
+                ``-yyyyyyysososo+/:-...````...-::--...`
+                  `yyyhyyy+:shdhysoo+/:----:::--....-`
+                   +yyhhhys/:yhhhyysoo++++:...-....-.
+                   .yyyhhhys//ooo+/:::--..```.     -`
+                   smyyhhhdhy//s+/::---.......-:::-`
+                 .yMMsyhhhdddho+o/:--...``...-::-.
+               .+NMMMMyohhhddddhyss+///::--:///:.
+          .+hmMMMMMMMMMm//shhdddddhhhhdhyso+//:-o+:-`
+       -odMMMMMMMMMMMMMMMy--/oyhhyyyyysso+++/:.-NNNNNmhs/-`
+   ./smNNNNMMMMMMMMMMMMMMMm+-..-/osssso/::-.`  -NNNNNNNNNNNds/-`
+sdNNNNNNNNNNMMMMMMMMMMMMMMMMs..````.:/+/:.`    /NNNNNNNNNNNNNNNNds+-
+NNNNNNNNNNNNNNMMMMMMMMMMMMMMNs``   .+sysyyy+`  sNNNNNNNNNNNNNNNNNNNNNho:`
+NNNNNNNNNNNNNNNMMMMMMMMMMMMMNNy` `odhdyyosydh. :NNNNNNNNNNNNNNNNNNNNNNNNNh+
+NNNNNNNNNNNNNNNMMMMMMMMMMMMMNNNd.oyydmdhysh++o..mNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNMMMMMMMMMMNNNNNNNm.-/-sdmdys   `-yNNNNNNNNNNNNNNNNNNNNNNNNNN 
+
+
+```````
 ## 用途 ##
 
 这个小工具可以帮助HR批量地按照给定模板发送工资单给多个员工.
@@ -82,11 +122,16 @@ H(ighness) R(oyal)
 
 示例:
 
-1. 给employee.xls的每个人,按照模板employee.txt发送邮件: 
-`python EasyNotify.py  employee.csv employee.txt`
+1. 给test.csv的每个人,按照模板temp1.txt发送邮件: 
+`python EasyNotify.py test.csv temp1.txt` 
 
-2. 给intrn.xls的每个人,按照模板intern.txt发送, 同时抄送自己
-`python EasyNotify.py intrn.csv intern.txt -ccself`
+2. 给intrn.cvs的每个人,按照模板intern.txt发送, 同时抄送自己 
+`python EasyNotify.py intrn.csv intern.txt --ccself`
 
+3. 用另一个邮箱配置文件(new_email.txt)发送邮件, 并抄送自己 
+`python EasyNotify.py intrn.csv intern.txt -c -m new_email.txt`
+
+4. 口..口 
+`python EasyNotify.py intrn.csv intern.txt -excited`
 
 

@@ -1,16 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 import sys
 import os
 import math
 import csv
 import json
 import io
+import argparse
 import random
 from lib.utils import *
 from lib.EmailSender import *
 from lib.WageReader import *
-
 from os import path
 def preview():
     pass
@@ -18,25 +19,45 @@ def preview():
 def send():
     pass
 
-def main(args):
-    if len(sys.argv) < 3:
-        name = os.path.basename(sys.argv[0])
-        print u"用法: python {0} [工资表] [模板文件]\n".format(name) + \
-              u"--------------------------------------------\n" + \
-              u"示例:\n" + \
-              u"1. 给test.xls的每个人,按照模板temp1.txt发送邮件:\n" + \
-              u"python {0} test.xml temp1.txt\n\n".format(name) + \
-              u"2. 给intrn.cvs的每个人,按照模板intern.txt发送, 同时抄送自己\n" + \
-              u"python {0} intrn.cvs intern.txt -ccself\n\n".format(name)
-        return
+def main():
+    name = os.path.basename(sys.argv[0])
+    desc =  u"用法: python {0} 工资文件 模板文件 [-m] [-c] [-e]\n".format(name) + \
+            u"--------------------------------------------\n" + \
+            u"示例:\n\n".format() + \
+            u"1. 给test.csv的每个人,按照模板temp1.txt发送邮件:\n" + \
+            u"python {0} test.csv temp1.txt\n\n".format(name) + \
+            u"2. 给intrn.cvs的每个人,按照模板intern.txt发送, 同时抄送自己\n" + \
+            u"python {0} intrn.csv intern.txt --ccself\n\n".format(name) + \
+            u"3. 用另一个邮箱配置文件(new_email.txt)发送邮件, 并抄送自己\n" + \
+            u"python {0} intrn.csv intern.txt -c -m new_email.txt\n\n".format(name) + \
+            u"4. 口..口\n" + \
+            u"python {0} intrn.csv intern.txt -excited\n\n".format(name)
 
-    print "Tool started...\n"
+    assert_msg (len(sys.argv) > 1, desc + " ".join(sys.argv))
 
-    table_file = args[1]
-    template_file = args[2]
-    ccself = u"-ccself" in args
+    parser = argparse.ArgumentParser(
+        prog=sys.argv[0],
+        formatter_class=argparse.RawTextHelpFormatter,
+        description = desc
 
-    config = WageNotifierSetting.createFromFile('email.txt')
+    )
+    parser.add_argument('wage_file' , type=str, help=u'''工资文件位置''')
+    parser.add_argument('template_file',  type=str, help=u"模板文件位置")
+    parser.add_argument('-c','--ccself', action="store_true", default=False, required = False, help=u"可选: 抄送自己")
+    parser.add_argument('-m','--mail', type=str, default='email.txt', help=u"可选: 邮箱配置")
+    parser.add_argument('-e', '--excited', action="store_true", default=False, help=u"口..口")
+    args= parser.parse_args()
+
+    table_file = args.wage_file
+    template_file = args.template_file
+    ccself = args.ccself
+    excited = args.excited
+    emailfile = args.mail
+
+    if excited:
+        print_him()
+
+    config = WageNotifierSetting.createFromFile(emailfile)
     reader = WageReader(table_file)
     sender = EmailNotifier(config)
     rows = reader.read_rows()
@@ -87,5 +108,4 @@ def main(args):
     print u"发送完毕...\n\n觉得好用的话请给工具的作者涨工资 :) \n"
 
 if __name__ == "__main__":
-    args = sys.argv
-    main(args)
+    main()

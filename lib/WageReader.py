@@ -3,6 +3,7 @@
 
 import CVSReader
 # import openpyxl
+from utils import *
 from os import path
 
 class WageReader:
@@ -11,8 +12,7 @@ class WageReader:
     reader = None
 
     def __init__(self, filename):
-        if not path.exists(filename) :
-            raise Exception(u"错误, 工资文件不存在!\n")
+        assert_msg( path.exists(filename), u"错误, 工资文件不存在!\n")
         self.wage_file = filename
 
     def read_csv(self):
@@ -43,4 +43,3 @@ class WageReader:
         else:
             print (u"错误, 暂时只支持.csv格式的工资, 请在excel中另存为.csv格式\n")
             return None
-            # raise Exception(u"错误, 工资文件应该是.csv / .xls / .xlsx中的一种!\n")
