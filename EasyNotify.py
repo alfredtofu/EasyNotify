@@ -9,10 +9,12 @@ import json
 import io
 import argparse
 import random
+import time
 from lib.utils import *
 from lib.EmailSender import *
 from lib.WageReader import *
 from os import path
+
 def preview():
     pass
 
@@ -33,26 +35,37 @@ def main():
             u"4. 口..口\n" + \
             u"python {0} intrn.csv intern.txt -excited\n\n".format(name)
 
-    assert_msg (len(sys.argv) > 1, desc + " ".join(sys.argv))
+    if len(sys.argv) > 1:
+        assert_msg (len(sys.argv) > 1, desc + u" ".join([item.decode('utf-8') for item in sys.argv]))
 
-    parser = argparse.ArgumentParser(
-        prog=sys.argv[0],
-        formatter_class=argparse.RawTextHelpFormatter,
-        description = desc
+        parser = argparse.ArgumentParser(
+            prog=sys.argv[0],
+            formatter_class=argparse.RawTextHelpFormatter,
+            description = desc
 
-    )
-    parser.add_argument('wage_file' , type=str, help=u'''工资文件位置''')
-    parser.add_argument('template_file',  type=str, help=u"模板文件位置")
-    parser.add_argument('-c','--ccself', action="store_true", default=False, required = False, help=u"可选: 抄送自己")
-    parser.add_argument('-m','--mail', type=str, default='email.txt', help=u"可选: 邮箱配置")
-    parser.add_argument('-e', '--excited', action="store_true", default=False, help=u"口..口")
-    args= parser.parse_args()
+        )
+        parser.add_argument('wage_file' , type=str, help=u'''工资文件位置''')
+        parser.add_argument('template_file',  type=str, help=u"模板文件位置")
+        parser.add_argument('-c','--ccself', action="store_true", default=False, required = False, help=u"可选: 抄送自己")
+        parser.add_argument('-m','--mail', type=str, default='email.txt', help=u"可选: 邮箱配置")
+        parser.add_argument('-e', '--excited', action="store_true", default=False, help=u"口..口")
+        args= parser.parse_args()
 
-    table_file = args.wage_file
-    template_file = args.template_file
-    ccself = args.ccself
-    excited = args.excited
-    emailfile = args.mail
+        table_file = args.wage_file
+        template_file = args.template_file
+        ccself = args.ccself
+        excited = args.excited
+        emailfile = args.mail
+    else:
+        print u"###方便起见,请把工资和邮件模板都放在EasyNotify的文件夹下###"
+        table_file = raw_input(u"请输入工资文件的名字:".encode(sys.stdin.encoding))
+        template_file = raw_input(u"请输入邮件模板的名字:".encode(sys.stdin.encoding))
+        ccself = False
+        excited = False
+        emailfile = raw_input(u"请输入邮箱配置文件名(直接回车将默认email.txt):".encode(sys.stdin.encoding))
+        if emailfile.strip() == u'':
+            emailfile = 'email.txt'
+
 
     if excited:
         print_him()
@@ -88,7 +101,7 @@ def main():
         print u"工资单为空...即将退出..."
         return
 
-    print u"发送邮件给{0}名员工, 模板{1}...\n".format(len(tasks), path.basename(template_file))
+    print u"发送邮件给{0}名员工, 模板{1}...\n".format(len(tasks), path.basename(template_file).decode('utf-8'))
     print u"========邮件预览========"
     print tasks[random.randint(1, len(tasks)) - 1].__str__()
     print u"========预览结束========\n"
@@ -103,7 +116,9 @@ def main():
     for task in tasks:
         i+=1
         print u"{0}: 正在发送邮件给 {1}...".format(i, task.toaddrs)
+        sender = EmailNotifier(config)
         sender.send(task)
+        time.sleep(2)
 
     print u"发送完毕...\n\n觉得好用的话请给工具的作者涨工资 :) \n"
 
