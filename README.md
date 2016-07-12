@@ -74,7 +74,7 @@ xiaoke.jia
 mail.hobot.cc
 
 [serverport]           //邮箱系统smtp服务器的端口号
-587
+123
 
 [debug]                //是否打印调试信息
 false
@@ -118,6 +118,14 @@ H(ighness) R(oyal)
 
 ## 用法 ##
 
+### Mac OS ###
+
+1. 双击EasyNotify.app运行
+2. 按照提示输入工资文件(.csv)和邮件模板文件(e.g. test_template.txt)
+3. 选择邮箱配置文件, 直接回车将从默认的邮箱配置文件(email.txt)中加载
+4. 随机预览一封邮件, 如果没有问题, 输入y回车开始发送.
+
+### 命令行 ###
 `python EasyNotify.py 工资文件 邮件模板`
 
 示例:
