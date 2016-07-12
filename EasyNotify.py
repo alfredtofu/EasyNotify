@@ -10,6 +10,7 @@ import io
 import argparse
 import random
 import time
+import readline, glob
 from lib.utils import *
 from lib.EmailSender import *
 from lib.WageReader import *
@@ -22,6 +23,13 @@ def send():
     pass
 
 def main():
+    def complete(text, state):
+        return (glob.glob(text + '*') + [None])[state]
+
+    readline.set_completer_delims(' \t\n;')
+    readline.parse_and_bind("tab: complete")
+    readline.set_completer(complete)
+
     name = os.path.basename(sys.argv[0])
     desc =  u"用法: python {0} 工资文件 模板文件 [-m] [-c] [-e]\n".format(name) + \
             u"--------------------------------------------\n" + \
@@ -57,9 +65,9 @@ def main():
         excited = args.excited
         emailfile = args.mail
     else:
-        print u"###方便起见,请把工资和邮件模板都放在EasyNotify的文件夹下###"
-        table_file = raw_input(u"请输入工资文件的名字:".encode(sys.stdin.encoding))
-        template_file = raw_input(u"请输入邮件模板的名字:".encode(sys.stdin.encoding))
+        print u"\n###方便起见,请把工资和邮件模板都放在EasyNotify的文件夹下###\n".encode('utf-8')
+        table_file = raw_input(u"请输入工资文件的名字:".encode('utf-8'))
+        template_file = raw_input(u"请输入邮件模板的名字:".encode('utf-8'))
         ccself = False
         excited = False
         emailfile = raw_input(u"请输入邮箱配置文件名(直接回车将默认email.txt):".encode(sys.stdin.encoding))
@@ -116,9 +124,9 @@ def main():
     for task in tasks:
         i+=1
         print u"{0}: 正在发送邮件给 {1}...".format(i, task.toaddrs)
-        sender = EmailNotifier(config)
+        #sender = EmailNotifier(config)
         sender.send(task)
-        time.sleep(2)
+        time.sleep(1)
 
     print u"发送完毕...\n\n觉得好用的话请给工具的作者涨工资 :) \n"
 

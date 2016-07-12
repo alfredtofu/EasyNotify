@@ -22,7 +22,7 @@ class WageReader:
             f = CVSReader.UnicodeReader(fid)
             for row in f:
                 if key is None:
-                    key = row
+                    key = [ col.strip(' \t') for col in row]
                 else:
                     rows.append(dict(zip(key, row)))
         return rows
