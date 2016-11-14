@@ -10,7 +10,7 @@ import io
 import argparse
 import random
 import time
-import readline, glob
+import glob
 from lib.utils import *
 from lib.EmailSender import *
 from lib.WageReader import *
@@ -23,13 +23,6 @@ def send():
     pass
 
 def main():
-    def complete(text, state):
-        return (glob.glob(text + '*') + [None])[state]
-
-    readline.set_completer_delims(' \t\n;')
-    readline.parse_and_bind("tab: complete")
-    readline.set_completer(complete)
-
     name = os.path.basename(sys.argv[0])
     desc =  u"用法: python {0} 工资文件 模板文件 [-m] [-c] [-e]\n".format(name) + \
             u"--------------------------------------------\n" + \
@@ -43,14 +36,11 @@ def main():
             u"4. 口..口\n" + \
             u"python {0} intrn.csv intern.txt -excited\n\n".format(name)
 
-    if len(sys.argv) > 1:
-        assert_msg (len(sys.argv) > 1, desc + u" ".join([item.decode('utf-8') for item in sys.argv]))
-
+    if len(sys.argv) > 2:
         parser = argparse.ArgumentParser(
             prog=sys.argv[0],
             formatter_class=argparse.RawTextHelpFormatter,
             description = desc
-
         )
         parser.add_argument('wage_file' , type=str, help=u'''工资文件位置''')
         parser.add_argument('template_file',  type=str, help=u"模板文件位置")
@@ -62,21 +52,10 @@ def main():
         table_file = args.wage_file
         template_file = args.template_file
         ccself = args.ccself
-        excited = args.excited
         emailfile = args.mail
     else:
-        print u"\n###方便起见,请把工资和邮件模板都放在EasyNotify的文件夹下###\n".encode('utf-8')
-        table_file = raw_input(u"请输入工资文件的名字:".encode('utf-8'))
-        template_file = raw_input(u"请输入邮件模板的名字:".encode('utf-8'))
-        ccself = False
-        excited = False
-        emailfile = raw_input(u"请输入邮箱配置文件名(直接回车将默认email.txt):".encode(sys.stdin.encoding))
-        if emailfile.strip() == u'':
-            emailfile = 'email.txt'
-
-
-    if excited:
-        print_him()
+        print desc
+        sys.exit(0)
 
     config = WageNotifierSetting.createFromFile(emailfile)
     reader = WageReader(table_file)
