@@ -5,6 +5,7 @@ import smtplib
 import codecs
 import json
 import re
+import time
 import StringIO
 from utils import *
 from os import path
@@ -89,7 +90,8 @@ class WageTask:
         task.fromaddr = task.from_template.format(**row)
         task.toaddrs = [task.to_template.format(**row)]
         task.subject = task.subject_template.format(**row)
-        task.content = task.content_template.format(**row)
+        task.content = task.content_template.format(**row).strip() + \
+            "\n" + time.strftime('%Y-%m-%d',time.localtime(time.time()))
         task.row = row
 
         # 如果收件人对应的列是空, 那么就不发送这一行
