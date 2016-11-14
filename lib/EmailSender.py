@@ -128,6 +128,7 @@ class WageNotifierSetting:
         setting.username = jsonobj['username']
         setting.password = jsonobj['password']
         setting.serveraddr = jsonobj['serveraddr']
+        setting.serverport = jsonobj["serverport"]
         setting.sender = jsonobj['sender']
         setting.debug = jsonobj['debug']
         return setting
@@ -179,7 +180,7 @@ class EmailNotifier:
         # self.server.set_debuglevel(1)  # 开启调试，会打印调试信息
         print(u"验证邮箱账户密码...")
         try:
-            self.server = smtplib.SMTP(config.serveraddr, 587)
+            self.server = smtplib.SMTP(config.serveraddr, config.serverport)
             self.server.set_debuglevel(config.debug)
             self.server.ehlo()
             self.server.starttls()
